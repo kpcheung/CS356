@@ -11,7 +11,7 @@ import java.util.List;
 public abstract class Question {
 	
 	/**
-	 * This variable contains the body of the question.
+	 * This variable contains the header of the question.
 	 */
 	private String question;
 	
@@ -30,4 +30,18 @@ public abstract class Question {
 		this.candidates = candidates;
 		this.answer = answer;
 	}
+	
+	public String getQuestion() {
+		return question;
+	}
+	
+	public List<String> getCandidates() {
+		return candidates;
+	}
+	
+	public List<String> getAnswer() {
+		return answer;
+	}
+	
+	public abstract void checkAns(List<String> submittedAns);
 }

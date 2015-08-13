@@ -16,4 +16,10 @@ public class Single extends Question {
 		// TODO Auto-generated constructor stub
 	}
 
+	@Override
+	public void checkAns(List<String> submittedAns) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
