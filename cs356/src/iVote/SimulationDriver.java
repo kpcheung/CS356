@@ -17,28 +17,37 @@ public class SimulationDriver {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		System.out.println("===== iVote Simulation ==========================================");
+		System.out.println("Hello, this is a simulation based on iVote.io\n");
+		
 		/**
 		 * Simulation variables, i.e. sample questions, candidates, and correct answers
 		 * for Multiple Candidate Questions and Single Candidate Questions.
 		 */
-		String questionMulti = "Which fruits are the superior fruits? (Choose all that apply)";
+		String questionMulti = "Which fruits are the superior fruits?\n";
 		List<String> candidatesMulti = new ArrayList<String>();
-		String questionSingle = "Where's the beef? (A Wendy's fast food chain reference)";
+		String questionSingle = "Where's the beef?\n(A Wendy's fast food chain reference)\n";
 		List<String> candidatesSingle = new ArrayList<String>();
-		candidatesMulti.add("Durian");
-		candidatesMulti.add("Apples");
-		candidatesMulti.add("Persimmons");
-		candidatesMulti.add("Grapes");
-		candidatesMulti.add("Melons");
-		candidatesSingle.add("There was never any beef.");
-		candidatesSingle.add("It died with Clara Peller.");
-		candidatesSingle.add("You should quit reading the Wendy's Wiki article.");
-		candidatesSingle.add("Why are you wasting my time?");
+		candidatesMulti.add("a. Durian");
+		candidatesMulti.add("b. Apples");
+		candidatesMulti.add("c. Persimmons");
+		candidatesMulti.add("d. Grapes");
+		candidatesMulti.add("e. Melons");
+		candidatesMulti.add("f. Peaches");
+		candidatesMulti.add("g. Strawberries");
+		candidatesSingle.add("a. There was never any beef.");
+		candidatesSingle.add("b. It died with Clara Peller.");
+		candidatesSingle.add("c. Please stop this madness...");
+		candidatesSingle.add("d. Why are you wasting my time?");
 		List<String> correctMulti = new ArrayList<String>();
 		List<String> correctSingle = new ArrayList<String>();
-		correctMulti.add("Persimmons");
-		correctMulti.add("Melons");
-		correctSingle.add("It died with Clara Peller.");
+		correctMulti.add("c. Persimmons");
+		correctMulti.add("e. Melons");
+		correctMulti.add("g. Strawberries");
+		correctSingle.add("b. It died with Clara Peller.");
+		
+		simulation(1, questionSingle, candidatesSingle, correctSingle);
+		simulation(2, questionMulti, candidatesMulti, correctMulti);
 	}
 	
 	/**
@@ -66,7 +75,7 @@ public class SimulationDriver {
 		/**
 		 * Randomizes the number of students between 20-50 as with a standard classroom size.
 		 */
-		int randNumStudents = rand.nextInt((20 - 50) + 1) + 20;
+		int randNumStudents = rand.nextInt((20 - 10) + 1) + 10;
 		
 		/**
 		 * An array of the random number of students.
@@ -74,9 +83,13 @@ public class SimulationDriver {
 		Student[] students = new Student[randNumStudents];
 		
 		if(questionType == 1) {
+			System.out.println("== Single Candidate Question ==");
+			System.out.println("Please choose one answer");
 			q = new Single(question, candidates, correctAns);
 		}
 		else {
+			System.out.println("== Multiple Candidate Question ==");
+			System.out.println("Choose all that apply");
 			q = new Multiple(question, candidates, correctAns);
 		}
 		
@@ -84,18 +97,39 @@ public class SimulationDriver {
 		
 		for(int k = 0; k < students.length; k++) {
 			students[k] = new Student();
-			students[k].addCandidates(generateAns());
-			
+			students[k].addCandidates(generateAns(questionType, candidates));
+			iVote.receiveAns(students[k].getID(), students[k].getCandidates());
 		}
+		
+		iVote.showResults();
 	}
 
 	/**
 	 * Generates random answers per student.
-	 * @return
+	 * @return	A list of the answers the student has chosen
 	 */
-	private static List<String> generateAns() {
+	private static List<String> generateAns(int questionType, List<String> candidates) {
 		List<String> ans = new ArrayList<String>();
+		Random rand = new Random();
+		if(questionType == 1) {
+			int randAns = rand.nextInt((candidates.size() - 1) + 1);
+			ans.add(candidates.get(randAns));
+		}
 		
+		//Multiple Candidate questions means there are multiple correct answers, but 
+		//the statistics are useless if every student chooses all the options so they
+		//are limited to the amount of available options minus one.
+		else {
+			int randNumAns = rand.nextInt(((candidates.size() - 1) - 1) + 1) + 1;
+			for(int i = 0; i < randNumAns; ++i) {
+				int randAns = rand.nextInt((candidates.size() - 1) + 1);
+				for(String candidate : candidates) {
+					if(!ans.contains(candidates.get(randAns))) {
+						ans.add(candidates.get(randAns));
+					}
+				}
+			}
+		}
 		return ans;
 	}
 }

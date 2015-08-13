@@ -32,7 +32,7 @@ public class Student {
 	
 	/**
 	 * This method returns the student ID.
-	 * @return The student ID.
+	 * @return	the student ID
 	 */
 	public String getID() {
 		return ID;
@@ -40,7 +40,7 @@ public class Student {
 	
 	/**
 	 * This method returns the list of the student's answers.
-	 * @return
+	 * @return	The list of the students answers
 	 */
 	public List<String> getCandidates() {
 		return candidates;
@@ -48,17 +48,17 @@ public class Student {
 	
 	/**
 	 * This method creates a randomly generated student ID.
-	 * @return A randomly generated student ID.
+	 * @return	A randomly generated student ID
 	 */
 	public String generateID() {
 		Random rand = new Random();
-	    int randNum = rand.nextInt((1000 - 9000) + 1) + 1000;
+	    int randNum = rand.nextInt((9000 - 1000) + 1) + 1000;
 		return "00" + randNum;
 	}
 	
 	/**
 	 * This method adds the student's answers to the candidates list.
-	 * @param candidates A list of the student's answers.
+	 * @param candidates	T list of the student's answers
 	 */
 	public void addCandidates(List<String> candidates) {
 		this.candidates = candidates;

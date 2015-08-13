@@ -10,17 +10,14 @@ import java.util.List;
 
 public class Multiple extends Question {
 
+	/**
+	 * This is the default constructor for the Multiple class.
+	 * @param question		The question header
+	 * @param candidates	The list of possible answers to the question
+	 * @param answer		The list of correct answers to the question
+	 */
 	public Multiple(String question, List<String> candidates,
 			List<String> answer) {
 		super(question, candidates, answer);
-		// TODO Auto-generated constructor stub
 	}
-
-	@Override
-	public void checkAns(List<String> submittedAns) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	
 }
